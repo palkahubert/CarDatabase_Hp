@@ -82,6 +82,7 @@ BEGIN_MESSAGE_MAP(CMFCApplication2Dlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT2, &CMFCApplication2Dlg::OnEnChangeEdit2)
 	ON_BN_CLICKED(IDC_BUTTON2, &CMFCApplication2Dlg::OnBnClickedButton2)
 	ON_BN_CLICKED(IDC_BUTTON3, &CMFCApplication2Dlg::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON4, &CMFCApplication2Dlg::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
 
@@ -341,4 +342,74 @@ void CMFCApplication2Dlg::OnBnClickedButton2(){
 	{
 		AfxMessageBox(_T("Błąd otwierania pliku!"));
 	}
+}
+
+void CMFCApplication2Dlg::OnBnClickedButton4()
+{
+	// Aktualizuj zmienne z GUI
+	UpdateData(TRUE);
+
+	if (Manufacturer.IsEmpty() || Model.IsEmpty() || Year.IsEmpty() || Color.IsEmpty())
+	{
+		AfxMessageBox(_T("All fields must be filled before adding data!"));
+		return;
+	}
+
+	CString filePath = _T("cars.txt");
+	CString tempFilePath = _T("cars_temp.txt");
+
+	CStdioFile file, tempFile;
+
+	if (!file.Open(filePath, CFile::modeRead))
+	{
+		AfxMessageBox(_T("ERROR : Unable to open the database!"));
+		return;
+	}
+	if (!tempFile.Open(tempFilePath,CFile::modeCreate | CFile::modeWrite ))
+	{
+		AfxMessageBox(_T("ERROR : Unable to delete the database! \n Unable to create a temporary file."));
+		return;
+	}
+
+	CString line;
+	bool deleted = false;
+
+	while (file.ReadString(line))
+	{
+		if (line.Find(_T("Manufacturer: ") + Manufacturer) != -1 &&
+			line.Find(_T("Model: ") + Model) != -1 &&
+			line.Find(_T("Year: ") + Year) != -1 &&
+			line.Find(_T("Color: ") + Color) != -1)
+		{
+			deleted = true;
+		}
+		else
+		{
+			tempFile.WriteString(line + _T("\n"));
+		}
+	}
+	file.Close();
+	tempFile.Close();
+
+	if (deleted)
+	{
+		if (_tremove(filePath) != 0 || _trename(tempFilePath, filePath) != 0)
+		{
+			AfxMessageBox(_T("ERROR : Unable to update the database!"));
+		}
+		else
+		{
+			AfxMessageBox(_T("Car was successfuly deleted from the database"));
+		}
+	}
+	else
+	{
+		_tremove(tempFilePath);
+		AfxMessageBox(_T("No matching car found in the database"));
+	}
+	Manufacturer = (_T(""));
+	Model = (_T(""));
+	Year = (_T(""));
+	Color = (_T(""));
+	UpdateData(FALSE);
 }

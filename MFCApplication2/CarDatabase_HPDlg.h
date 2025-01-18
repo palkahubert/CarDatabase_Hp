@@ -45,4 +45,5 @@ public:
 	afx_msg void OnBnClickedButton2();
 	CButton Clear;
 	afx_msg void OnBnClickedButton3();
+	afx_msg void OnBnClickedButton4();
 };
