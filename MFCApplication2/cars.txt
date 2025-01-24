@@ -1,4 +1,3 @@
-Manufacturer: Mercedes, Model: A35, Year: 2019, Color: Red
-Manufacturer: Mercedes, Model: A35, Year: 2022, Color: Black
-Manufacturer: Porsche, Model: 911, Year: 2002, Color: Silver
-Manufacturer: Porsche, Model: 911, Year: 2020, Color: Silver
+Manufacturer: Opel, Model: Corsa, Year: 2020, Color: Silver
+Manufacturer: Opel, Model: Corsa, Year: 2020, Color: Red
+Manufacturer: Ford, Model: Focus, Year: 2019, Color: Red

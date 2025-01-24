@@ -188,7 +188,7 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 {
 	// Aktualizuj zmienne z GUI
 	UpdateData(TRUE);
-
+	// Sprawdź, czy wszystkie pola są wypełnione
 	if (Manufacturer.IsEmpty() || Model.IsEmpty() || Year.IsEmpty() || Color.IsEmpty())
 	{
 		AfxMessageBox(_T("All fields must be filled before adding data!"));
@@ -223,6 +223,7 @@ void CMFCApplication2Dlg::OnBnClickedButton1()
 	}
 	else
 	{
+		// Pokaż komunikat o błędzie
 		AfxMessageBox(_T("ERROR : Unable to access the database!"));
 	}
 }
@@ -262,10 +263,11 @@ void CMFCApplication2Dlg::OnEnChangeEdit2()
 }
 
 void CMFCApplication2Dlg::OnBnClickedButton2() {
+	// Aktualizuj zmienne z GUI
 	UpdateData(TRUE);
 
 	CStdioFile file;
-	//Otwarcie pliku w trybie odczytu
+	// Otwarcie pliku w trybie odczytu
 	if (file.Open(_T("cars.txt"), CFile::modeRead))
 	{
 		CString line;
@@ -286,6 +288,7 @@ void CMFCApplication2Dlg::OnBnClickedButton2() {
 
 			if (match)
 			{
+				// Jeśli odnaleziono pojazd, dodaj do elementów, które zostaną wyświetlone
 				matchingCars += line + _T("\n");
 				found = true;
 			}
@@ -293,6 +296,7 @@ void CMFCApplication2Dlg::OnBnClickedButton2() {
 		file.Close();
 		if (found)
 		{
+			// Wyświetl znaleziony pojazd/pojazdy
 			AfxMessageBox(_T("Car exists in the database: \n") + matchingCars);
 			Manufacturer = (_T(""));
 			Model = (_T(""));
@@ -302,17 +306,20 @@ void CMFCApplication2Dlg::OnBnClickedButton2() {
 		}
 		else
 		{
+			// Wyświetl komunikat o braku pojazdu w bazie danych
 			AfxMessageBox(_T("Not found in the database"));
 		}
 	}
 	else
 	{
+		// Wyświetl komunikat o błędzie otwierania pliku
 		AfxMessageBox(_T("Błąd otwierania pliku!"));
 	}
 }
 
 void CMFCApplication2Dlg::OnBnClickedButton3()
 {
+	// Aktualizuj zmienne z GUI
 	UpdateData(TRUE);
 	CString filePath = _T("cars.txt");
 
@@ -323,6 +330,7 @@ void CMFCApplication2Dlg::OnBnClickedButton3()
 		CStdioFile file;
 		if (file.Open(filePath, CFile::modeCreate | CFile::modeWrite))
 		{
+			// Zamknij i zapisz pusty plik oraz wyświetl komunikat o sukcesie
 			file.Close();
 			AfxMessageBox(_T("Database has been erased!"));
 			Manufacturer = (_T(""));
@@ -332,11 +340,13 @@ void CMFCApplication2Dlg::OnBnClickedButton3()
 		}
 		else
 		{
+			// Wyświetl komunikat o błędzie stworzenia nowej, pustej bazy danych
 			AfxMessageBox(_T("ERROR : Unable to create a new database!"));
 		}
 	}
 	else
 	{
+		// Wyświetl komunikat o błędzie usuwania bazy danych
 		AfxMessageBox(_T("ERROR : Unable to erase the database!"));
 	}
 
@@ -347,6 +357,7 @@ void CMFCApplication2Dlg::OnBnClickedButton3()
 
 void CMFCApplication2Dlg::OnBnClickedButton4()
 {
+	// Aktualizuj zmienne z GUI
 	UpdateData(TRUE);
 	//Sprawdzenie czy podane są wszystkie dane
 	if (Manufacturer.IsEmpty() || Model.IsEmpty() || Year.IsEmpty() || Color.IsEmpty())
@@ -356,6 +367,7 @@ void CMFCApplication2Dlg::OnBnClickedButton4()
 	}
 
 	CString filePath = _T("cars.txt");
+	// Ścieżka tymczasowego pliku
 	CString tempFilePath = _T("cars_temp.txt");
 
 	CStdioFile file, tempFile;
